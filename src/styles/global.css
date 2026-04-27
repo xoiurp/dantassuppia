@@ -58,12 +58,12 @@
   }
 }
 
-.prose-legal :where(h2, h3) { font-family: var(--font-serif); }
-.prose-legal h2 { @apply mt-10 mb-4 text-3xl font-semibold text-navy-900; }
-.prose-legal h3 { @apply mt-8 mb-3 text-2xl font-semibold text-navy-900; }
-.prose-legal p  { @apply my-4 text-base leading-7 text-ink/85; }
-.prose-legal ul { @apply my-4 list-disc pl-6 space-y-1 text-ink/85; }
-.prose-legal ol { @apply my-4 list-decimal pl-6 space-y-1 text-ink/85; }
-.prose-legal a  { @apply text-navy-700 underline underline-offset-2 hover:text-navy-900; }
-.prose-legal blockquote { @apply my-6 border-l-4 border-gold-500 bg-navy-50 px-5 py-3 italic text-navy-900; }
-.prose-legal img { @apply my-6 rounded-2xl; }
+.prose-legal :where(h2, h3):not(:where(.not-prose, .not-prose *)) { font-family: var(--font-serif); }
+.prose-legal h2:not(:where(.not-prose, .not-prose *)) { @apply mt-10 mb-4 text-3xl font-semibold text-navy-900; }
+.prose-legal h3:not(:where(.not-prose, .not-prose *)) { @apply mt-8 mb-3 text-2xl font-semibold text-navy-900; }
+.prose-legal p:not(:where(.not-prose, .not-prose *))  { @apply my-4 text-base leading-7 text-ink/85; }
+.prose-legal ul:not(:where(.not-prose, .not-prose *)) { @apply my-4 list-disc pl-6 space-y-1 text-ink/85; }
+.prose-legal ol:not(:where(.not-prose, .not-prose *)) { @apply my-4 list-decimal pl-6 space-y-1 text-ink/85; }
+.prose-legal a:not(:where(.not-prose, .not-prose *))  { @apply text-navy-700 underline underline-offset-2 hover:text-navy-900; }
+.prose-legal blockquote:not(:where(.not-prose, .not-prose *)) { @apply my-6 border-l-4 border-gold-500 bg-navy-50 px-5 py-3 italic text-navy-900; }
+.prose-legal img:not(:where(.not-prose, .not-prose *)) { @apply my-6 rounded-2xl; }
