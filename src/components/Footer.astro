@@ -1,0 +1,44 @@
+---
+import { site, nav } from "../lib/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-navy-950 text-navy-100">
+  <div class="container-x grid gap-12 py-16 md:grid-cols-4">
+    <div class="md:col-span-2">
+      <img src="/images/logo-branca.webp" alt={site.name} width="200" height="44" class="h-10 w-auto" />
+      <p class="mt-5 max-w-md text-sm leading-relaxed text-navy-200">
+        {site.description}
+      </p>
+      <p class="mt-4 text-xs uppercase tracking-[0.2em] text-gold-400">{site.hours}</p>
+    </div>
+
+    <div>
+      <h4 class="text-sm font-semibold uppercase tracking-wider text-white">Navegação</h4>
+      <ul class="mt-4 space-y-2 text-sm">
+        {nav.map((i) => (
+          <li><a href={i.href} class="text-navy-200 hover:text-white">{i.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="text-sm font-semibold uppercase tracking-wider text-white">Contato</h4>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li><a href={`tel:${site.phoneE164}`} class="text-navy-200 hover:text-white">{site.phone}</a></li>
+        <li><a href={`https://wa.me/${site.whatsappE164}`} class="text-navy-200 hover:text-white">WhatsApp {site.whatsapp}</a></li>
+        <li><a href={`mailto:${site.email}`} class="text-navy-200 hover:text-white">{site.email}</a></li>
+        {site.social.linkedin && (
+          <li><a href={site.social.linkedin} class="text-navy-200 hover:text-white" rel="me noopener">LinkedIn</a></li>
+        )}
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-navy-800">
+    <div class="container-x flex flex-col gap-2 py-6 text-xs text-navy-300 md:flex-row md:items-center md:justify-between">
+      <p>© {year} {site.name}. Todos os direitos reservados.</p>
+      <p>{site.oab.ronaldo} · {site.oab.manuela}</p>
+    </div>
+  </div>
+</footer>

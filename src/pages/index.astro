@@ -1,0 +1,175 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AreaIcon from "../components/AreaIcon.astro";
+import { site } from "../lib/site";
+import { getCollection } from "astro:content";
+
+const areas = (await getCollection("areas")).sort((a, b) => a.data.order - b.data.order);
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 3);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LegalService",
+  name: site.name,
+  url: site.url,
+  email: site.email,
+  telephone: site.phoneE164,
+  description: site.description,
+  address: site.addresses.map((a) => ({
+    "@type": "PostalAddress",
+    streetAddress: a.street,
+    addressLocality: a.city,
+    addressRegion: a.state,
+    postalCode: a.zip,
+    addressCountry: "BR",
+  })),
+  areaServed: { "@type": "Country", name: "Brasil" },
+  serviceType: areas.map((a) => a.data.title),
+  openingHours: "Mo-Fr 09:00-18:30",
+};
+---
+
+<Layout title="Advocacia empresarial e consultiva" jsonLd={jsonLd}>
+  <section class="relative overflow-hidden bg-navy-950 text-white">
+    <div class="absolute inset-0 opacity-30 [background:radial-gradient(circle_at_top_right,theme(colors.navy.700),transparent_60%)]"></div>
+    <div class="container-x relative grid gap-12 py-24 md:py-32 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+      <div>
+        <p class="eyebrow text-gold-400">Dantas & Suppia Advogados</p>
+        <h1 class="mt-4 text-4xl font-semibold leading-[1.05] md:text-6xl text-white">
+          Soluções jurídicas com <span class="text-gold-400">visão moderna</span> e foco em resultado.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg text-navy-100">
+          Apoiamos empresas e empreendedores em decisões jurídicas estratégicas — do contrato à conformidade, do consultivo ao contencioso.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="/contato" class="inline-flex items-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-sm font-semibold text-navy-950 transition hover:bg-gold-400">
+            Agendar consulta
+          </a>
+          <a href="/areas-de-atuacao" class="inline-flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-sm font-medium text-white transition hover:bg-white/10">
+            Ver áreas de atuação
+          </a>
+        </div>
+        <dl class="mt-12 grid grid-cols-3 gap-6 border-t border-white/10 pt-8 max-w-md">
+          <div>
+            <dt class="text-xs uppercase tracking-wider text-navy-200">Atuação</dt>
+            <dd class="mt-1 font-serif text-3xl text-gold-400">SP & SP-I</dd>
+          </div>
+          <div>
+            <dt class="text-xs uppercase tracking-wider text-navy-200">Áreas</dt>
+            <dd class="mt-1 font-serif text-3xl text-gold-400">6</dd>
+          </div>
+          <div>
+            <dt class="text-xs uppercase tracking-wider text-navy-200">Desde</dt>
+            <dd class="mt-1 font-serif text-3xl text-gold-400">2018</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="relative">
+        <div class="aspect-[4/5] overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
+          <img src="/images/escritorio.webp" alt="Escritório Dantas & Suppia" class="h-full w-full object-cover" loading="eager" width="640" height="800" />
+        </div>
+        <div class="absolute -bottom-6 -left-6 hidden md:block rounded-2xl bg-white p-5 shadow-xl">
+          <p class="text-xs uppercase tracking-wider text-gold-600">Atendimento</p>
+          <p class="mt-1 font-serif text-xl text-navy-900">{site.hours}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-x py-20 md:py-28">
+    <div class="grid gap-10 md:grid-cols-[1fr_2fr]">
+      <div>
+        <p class="eyebrow">Áreas de Atuação</p>
+        <h2 class="mt-3 text-4xl font-semibold">Práticas multidisciplinares</h2>
+        <p class="mt-4 text-ink/70">
+          Atuação especializada para pequenas e médias empresas, produtores rurais e pessoas físicas em demandas estratégicas.
+        </p>
+        <a href="/areas-de-atuacao" class="mt-6 btn-outline">Ver todas</a>
+      </div>
+      <ul class="grid gap-4 sm:grid-cols-2">
+        {areas.map((a) => (
+          <li>
+            <a href={`/areas-de-atuacao/${a.id}`} class="group flex h-full flex-col rounded-2xl border border-navy-100 bg-white p-6 transition hover:border-navy-300 hover:shadow-lg">
+              <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-navy-50 text-navy-900 group-hover:bg-navy-900 group-hover:text-gold-400 transition">
+                <AreaIcon name={a.data.icon} />
+              </span>
+              <h3 class="mt-5 text-xl font-semibold">{a.data.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink/70">{a.data.summary}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-navy-50 border-y border-navy-100">
+    <div class="container-x grid gap-12 py-20 md:grid-cols-2 md:items-center">
+      <div class="aspect-[4/3] overflow-hidden rounded-3xl">
+        <img src="/images/escritorio-2.webp" alt="Sala de reuniões do escritório" class="h-full w-full object-cover" loading="lazy" width="800" height="600" />
+      </div>
+      <div>
+        <p class="eyebrow">O Escritório</p>
+        <h2 class="mt-3 text-4xl font-semibold">Conhecimento técnico e parceria de longo prazo</h2>
+        <p class="mt-5 text-ink/75">
+          Fundado em 2018, o Dantas & Suppia oferece suporte ao processo decisório de pequenas e médias empresas em aspectos jurídico-legais e regulatórios. Nossa equipe combina conhecimento técnico especializado com vasta experiência prática.
+        </p>
+        <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+          {["Confidencialidade", "Ética", "Eficácia", "Presteza"].map((v) => (
+            <li class="flex items-center gap-2 text-sm font-medium text-navy-900">
+              <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-gold-500 text-navy-950">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+              </span>
+              {v}
+            </li>
+          ))}
+        </ul>
+        <a href="/escritorio" class="mt-8 btn-primary">Conheça nossa história</a>
+      </div>
+    </div>
+  </section>
+
+  {posts.length > 0 && (
+    <section class="container-x py-20 md:py-28">
+      <div class="flex items-end justify-between gap-6">
+        <div>
+          <p class="eyebrow">Insights</p>
+          <h2 class="mt-3 text-4xl font-semibold">Artigos recentes</h2>
+        </div>
+        <a href="/blog" class="hidden btn-outline md:inline-flex">Ver todos</a>
+      </div>
+      <ul class="mt-12 grid gap-8 md:grid-cols-3">
+        {posts.map((p) => (
+          <li>
+            <a href={`/blog/${p.id}`} class="group block">
+              <div class="aspect-[16/10] overflow-hidden rounded-2xl bg-navy-100">
+                {p.data.cover && (
+                  <img src={p.data.cover} alt={p.data.title} class="h-full w-full object-cover transition group-hover:scale-105" loading="lazy" />
+                )}
+              </div>
+              <p class="mt-5 text-xs uppercase tracking-wider text-gold-600">{p.data.category}</p>
+              <h3 class="mt-2 font-serif text-2xl text-navy-900 group-hover:text-navy-700">{p.data.title}</h3>
+              <p class="mt-2 text-sm text-ink/70 line-clamp-3">{p.data.description}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="bg-navy-900 text-white">
+    <div class="container-x py-16 md:py-20 md:flex md:items-center md:justify-between md:gap-10">
+      <div>
+        <h2 class="text-3xl md:text-4xl font-semibold text-white">Pronto para conversar sobre seu caso?</h2>
+        <p class="mt-3 max-w-xl text-navy-100">Avaliação inicial sem compromisso. Resposta em até um dia útil.</p>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-3 md:mt-0">
+        <a href="/contato" class="inline-flex items-center gap-2 rounded-full bg-gold-500 px-6 py-3 text-sm font-semibold text-navy-950 hover:bg-gold-400">Enviar mensagem</a>
+        <a href={`https://wa.me/${site.whatsappE164}`} class="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-medium text-white hover:bg-white/10">WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</Layout>

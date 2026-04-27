@@ -1,0 +1,107 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(self)"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[redirects]]
+  from = "/areas-de-atuacao/trabalhista"
+  to = "/areas-de-atuacao/trabalhista"
+  status = 200
+
+# Old WP slugs → new
+[[redirects]]
+  from = "/controle-horas-extras-funcionarios/"
+  to = "/blog/controle-horas-extras-funcionarios"
+  status = 301
+
+[[redirects]]
+  from = "/home-office-novas-diretrizes/"
+  to = "/blog/home-office-novas-diretrizes"
+  status = 301
+
+[[redirects]]
+  from = "/demissao-periodo-estabilidade-e-permitido/"
+  to = "/blog/demissao-periodo-estabilidade-e-permitido"
+  status = 301
+
+[[redirects]]
+  from = "/compliance-trabalhista-beneficios/"
+  to = "/blog/compliance-trabalhista-beneficios"
+  status = 301
+
+[[redirects]]
+  from = "/como-fazer-contrato-arrendamento-terras/"
+  to = "/blog/como-fazer-contrato-arrendamento-terras"
+  status = 301
+
+[[redirects]]
+  from = "/como-funciona-arrendamento-de-terras/"
+  to = "/blog/como-funciona-arrendamento-de-terras"
+  status = 301
+
+[[redirects]]
+  from = "/como-aplicar-compliance-na-empresa/"
+  to = "/blog/como-aplicar-compliance-na-empresa"
+  status = 301
+
+[[redirects]]
+  from = "/compliance-e-lei-anticorrupcao-nas-empresas/"
+  to = "/blog/compliance-e-lei-anticorrupcao-nas-empresas"
+  status = 301
+
+[[redirects]]
+  from = "/motivos-para-rescisao-de-contrato-de-locacao/"
+  to = "/blog/motivos-para-rescisao-de-contrato-de-locacao"
+  status = 301
+
+[[redirects]]
+  from = "/responsabilidades-das-queimadas/"
+  to = "/blog/responsabilidades-das-queimadas"
+  status = 301
+
+[[redirects]]
+  from = "/contrato-de-locacao-o-que-voce-precisa-saber-sobre-rescisao/"
+  to = "/blog/contrato-de-locacao-o-que-voce-precisa-saber-sobre-rescisao"
+  status = 301
+
+[[redirects]]
+  from = "/responsabilidade-civil-danos-meio-ambiente/"
+  to = "/blog/responsabilidade-civil-danos-meio-ambiente"
+  status = 301
+
+# WP page slugs
+[[redirects]]
+  from = "/escritorio/"
+  to = "/escritorio"
+  status = 301
+
+[[redirects]]
+  from = "/areas-de-atuacao/"
+  to = "/areas-de-atuacao"
+  status = 301
+
+[[redirects]]
+  from = "/contato/"
+  to = "/contato"
+  status = 301

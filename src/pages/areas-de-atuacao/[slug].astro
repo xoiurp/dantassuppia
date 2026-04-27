@@ -1,0 +1,64 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import AreaIcon from "../../components/AreaIcon.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const areas = await getCollection("areas");
+  return areas.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const all = (await getCollection("areas")).sort((a, b) => a.data.order - b.data.order);
+const others = all.filter((a) => a.id !== entry.id);
+---
+
+<Layout title={entry.data.title} description={entry.data.summary}>
+  <section class="bg-navy-50 border-b border-navy-100">
+    <div class="container-x py-16 md:py-24">
+      <a href="/areas-de-atuacao" class="text-sm text-navy-700 hover:text-navy-900">← Todas as áreas</a>
+      <div class="mt-6 flex items-start gap-5">
+        <span class="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-navy-900 text-gold-400">
+          <AreaIcon name={entry.data.icon} class="h-7 w-7" />
+        </span>
+        <div>
+          <p class="eyebrow">Área de atuação</p>
+          <h1 class="mt-2 text-4xl md:text-5xl font-semibold">{entry.data.title}</h1>
+          <p class="mt-4 max-w-2xl text-lg text-ink/75">{entry.data.summary}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-x grid gap-12 py-16 lg:grid-cols-[1fr_320px]">
+    <article class="prose-legal max-w-none">
+      <Content />
+      <div class="mt-10 rounded-2xl bg-navy-900 p-8 text-white">
+        <h3 class="text-2xl font-semibold text-white">Precisa de orientação nesta área?</h3>
+        <p class="mt-2 text-navy-100">Agende uma avaliação inicial e entenda como podemos atuar no seu caso.</p>
+        <a href="/contato" class="mt-5 inline-flex items-center gap-2 rounded-full bg-gold-500 px-6 py-3 text-sm font-medium text-navy-950 hover:bg-gold-400">Falar com um advogado →</a>
+      </div>
+    </article>
+
+    <aside>
+      <div class="sticky top-24 rounded-2xl border border-navy-100 p-6">
+        <h4 class="text-sm font-semibold uppercase tracking-wider text-navy-900">Outras áreas</h4>
+        <ul class="mt-4 space-y-3">
+          {others.map((o) => (
+            <li>
+              <a href={`/areas-de-atuacao/${o.id}`} class="flex items-center gap-3 text-sm text-ink/80 hover:text-navy-900">
+                <AreaIcon name={o.data.icon} class="h-5 w-5 text-navy-700" />
+                {o.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </aside>
+  </section>
+</Layout>

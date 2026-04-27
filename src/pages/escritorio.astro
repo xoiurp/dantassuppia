@@ -1,0 +1,150 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { site } from "../lib/site";
+
+const partners = [
+  {
+    slug: "ronaldo",
+    name: "Ronaldo Dantas",
+    role: "Sócio fundador",
+    oab: site.oab.ronaldo,
+    photo: "/images/team/ronaldo.webp",
+    bio: "Mais de dez anos de atuação em direito empresarial, com experiência em importantes empresas nacionais e multinacionais. Graduado em Direito pela Faculdade Metropolitana Unidas (FMU) e pós-graduado em Direito do Trabalho e Processo do Trabalho pelo Complexo Educacional Damásio de Jesus.",
+    areas: [
+      "Direito Empresarial",
+      "Direito do Trabalho",
+      "Direito Civil",
+      "Relações de Consumo",
+      "Propriedade Intelectual",
+      "Agronegócio",
+    ],
+    languages: ["Português", "Inglês"],
+  },
+  {
+    slug: "manuela",
+    name: "Manuela Suppia",
+    role: "Sócia fundadora",
+    oab: site.oab.manuela,
+    photo: "/images/team/manuela.webp",
+    bio: "Atuação em direito empresarial e contratual, com foco em assessoria estratégica a pequenas e médias empresas e estruturação de operações jurídicas seguras.",
+    areas: [
+      "Direito Empresarial",
+      "Direito Civil e Contratual",
+      "Direito Ambiental",
+      "Direito Registral",
+    ],
+    languages: ["Português"],
+  },
+];
+
+const values = [
+  { title: "Confidencialidade", desc: "Sigilo absoluto sobre informações estratégicas dos clientes." },
+  { title: "Ética", desc: "Atuação pautada em integridade e responsabilidade profissional." },
+  { title: "Eficácia", desc: "Soluções objetivas com foco em resultado e prevenção." },
+  { title: "Presteza", desc: "Atendimento ágil e comunicação transparente em todas as etapas." },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: `Sobre — ${site.name}`,
+  url: `${site.url}/escritorio`,
+};
+---
+
+<Layout
+  title="Escritório"
+  description="Fundado em 2018, o Dantas & Suppia oferece suporte jurídico estratégico a pequenas e médias empresas, com atuação em São Paulo e Limeira."
+  jsonLd={jsonLd}
+>
+  <section class="bg-navy-50 border-b border-navy-100">
+    <div class="container-x py-20 md:py-28">
+      <p class="eyebrow">O Escritório</p>
+      <h1 class="mt-3 text-4xl md:text-5xl font-semibold">Visão moderna, metodologia focada em resultados</h1>
+      <p class="mt-5 max-w-2xl text-lg text-ink/75">
+        Fundado em 2018, o Dantas & Suppia Advogados nasceu para fornecer suporte ao processo decisório de pequenas e médias empresas em seus aspectos jurídico-legais e regulatórios.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-x grid gap-14 py-20 lg:grid-cols-2 lg:items-center">
+    <div class="aspect-[4/3] overflow-hidden rounded-3xl">
+      <img src="/images/escritorio.webp" alt="Recepção do escritório" class="h-full w-full object-cover" loading="lazy" width="800" height="600" />
+    </div>
+    <div>
+      <p class="eyebrow">Nossa história</p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-semibold">Suporte estratégico desde 2018</h2>
+      <div class="prose-legal mt-5">
+        <p>
+          A equipe combina conhecimento técnico especializado com vasta experiência no assessoramento dos mais diversos casos. Acreditamos que o escritório tem papel fundamental na evolução do serviço jurídico no Brasil.
+        </p>
+        <p>
+          Atuamos com foco na <strong>prevenção de litígios</strong> e na construção de relações duradouras com nossos clientes — empresas que enxergam o jurídico como parceiro estratégico, não apenas como solução de emergência.
+        </p>
+        <p>
+          Nosso compromisso vai além da entrega técnica: defendemos os <strong>direitos humanos, a diversidade e o Estado Democrático de Direito</strong>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-navy-50 border-y border-navy-100">
+    <div class="container-x py-20">
+      <p class="eyebrow">Princípios</p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-semibold">Como trabalhamos</h2>
+      <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {values.map((v) => (
+          <li class="rounded-2xl bg-white p-7 shadow-sm border border-navy-100">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-navy-900 text-gold-400 font-serif text-lg">✦</span>
+            <h3 class="mt-4 text-xl font-semibold">{v.title}</h3>
+            <p class="mt-2 text-sm text-ink/70">{v.desc}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="container-x py-20 md:py-28">
+    <p class="eyebrow">Sócios</p>
+    <h2 class="mt-3 text-3xl md:text-4xl font-semibold">Quem está por trás do escritório</h2>
+    <div class="mt-12 grid gap-12 md:grid-cols-2">
+      {partners.map((p) => (
+        <article class="group">
+          <div class="aspect-[4/5] overflow-hidden rounded-3xl bg-navy-100">
+            <img src={p.photo} alt={`Foto de ${p.name}`} class="h-full w-full object-cover transition group-hover:scale-105" loading="lazy" width="600" height="750" />
+          </div>
+          <div class="mt-6">
+            <p class="eyebrow">{p.role}</p>
+            <h3 class="mt-2 text-3xl font-semibold">{p.name}</h3>
+            <p class="mt-1 text-sm text-navy-700">{p.oab}</p>
+            <p class="mt-4 text-ink/75 leading-relaxed">{p.bio}</p>
+            <div class="mt-5 grid gap-4 sm:grid-cols-2">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-navy-900">Áreas</p>
+                <ul class="mt-2 space-y-1 text-sm text-ink/70">
+                  {p.areas.map((a) => <li>· {a}</li>)}
+                </ul>
+              </div>
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-navy-900">Idiomas</p>
+                <ul class="mt-2 space-y-1 text-sm text-ink/70">
+                  {p.languages.map((l) => <li>· {l}</li>)}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-navy-900 text-white">
+    <div class="container-x py-16 md:flex md:items-center md:justify-between md:gap-10">
+      <div>
+        <h2 class="text-3xl font-semibold text-white">Vamos conversar?</h2>
+        <p class="mt-2 text-navy-100 max-w-lg">Atendemos em São Paulo (Av. Paulista) e Limeira. Agende uma reunião sem compromisso.</p>
+      </div>
+      <a href="/contato" class="mt-6 inline-flex items-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-sm font-semibold text-navy-950 hover:bg-gold-400 md:mt-0">Entrar em contato</a>
+    </div>
+  </section>
+</Layout>

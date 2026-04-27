@@ -1,0 +1,66 @@
+---
+import { nav, site } from "../lib/site";
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<header class="sticky top-0 z-40 border-b border-navy-100 bg-white/80 backdrop-blur">
+  <div class="container-x flex items-center justify-between py-4">
+    <a href="/" class="flex items-center gap-3" aria-label={site.name}>
+      <img
+        src="/images/logo-azul.webp"
+        alt={site.name}
+        width="180"
+        height="40"
+        class="h-9 w-auto"
+      />
+    </a>
+
+    <nav aria-label="Principal" class="hidden items-center gap-8 md:flex">
+      {nav.map((item) => {
+        const active = path === item.href || (item.href !== "/" && path.startsWith(item.href));
+        return (
+          <a
+            href={item.href}
+            class:list={[
+              "text-sm transition",
+              active ? "text-navy-900 font-semibold" : "text-ink/70 hover:text-navy-900",
+            ]}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </nav>
+
+    <a href="/contato" class="hidden btn-primary md:inline-flex">Fale conosco</a>
+
+    <button
+      type="button"
+      id="menu-toggle"
+      aria-label="Abrir menu"
+      class="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-navy-200 text-navy-900"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+
+  <div id="mobile-menu" hidden class="md:hidden border-t border-navy-100 bg-white">
+    <nav class="container-x flex flex-col gap-1 py-4" aria-label="Mobile">
+      {nav.map((item) => (
+        <a href={item.href} class="rounded-lg px-3 py-2 text-base text-navy-900 hover:bg-navy-50">
+          {item.label}
+        </a>
+      ))}
+      <a href="/contato" class="btn-primary mt-2 justify-center">Fale conosco</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  btn?.addEventListener("click", () => {
+    if (!menu) return;
+    menu.hidden = !menu.hidden;
+  });
+</script>

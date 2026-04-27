@@ -1,0 +1,79 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { formatDate } from "../../lib/blog";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const featured = posts[0];
+const rest = posts.slice(1);
+
+const categories = [...new Set(posts.map((p) => p.data.category))];
+---
+
+<Layout
+  title="Blog"
+  description="Artigos sobre Direito do Trabalho, Empresarial, Civil, Ambiental, Agronegócio e Registral. Insights práticos da Dantas & Suppia Advogados."
+>
+  <section class="bg-navy-50 border-b border-navy-100">
+    <div class="container-x py-20 md:py-28">
+      <p class="eyebrow">Blog</p>
+      <h1 class="mt-3 text-4xl md:text-5xl font-semibold">Insights jurídicos</h1>
+      <p class="mt-5 max-w-2xl text-lg text-ink/75">
+        Análises práticas sobre as áreas em que atuamos. Conteúdo informativo — não substitui aconselhamento jurídico individual.
+      </p>
+      <ul class="mt-8 flex flex-wrap gap-2 text-xs">
+        {categories.map((c) => (
+          <li class="rounded-full border border-navy-200 bg-white px-3 py-1 font-medium text-navy-700">{c}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {featured && (
+    <section class="container-x py-16">
+      <a href={`/blog/${featured.id}`} class="group grid gap-10 md:grid-cols-2 md:items-center">
+        <div class="aspect-[16/11] overflow-hidden rounded-3xl bg-navy-100">
+          {featured.data.cover ? (
+            <img src={featured.data.cover} alt={featured.data.title} class="h-full w-full object-cover transition group-hover:scale-105" loading="lazy" />
+          ) : (
+            <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-navy-100 to-navy-200">
+              <span class="font-serif text-6xl text-navy-400">D&S</span>
+            </div>
+          )}
+        </div>
+        <div>
+          <p class="eyebrow">Em destaque · {featured.data.category}</p>
+          <h2 class="mt-3 font-serif text-3xl md:text-4xl text-navy-900 group-hover:text-navy-700">{featured.data.title}</h2>
+          <p class="mt-4 text-ink/70">{featured.data.description}</p>
+          <p class="mt-6 text-sm text-navy-700">
+            {formatDate(featured.data.pubDate)} · {featured.data.author}
+          </p>
+        </div>
+      </a>
+    </section>
+  )}
+
+  <section class="container-x pb-24">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+      {rest.map((p) => (
+        <a href={`/blog/${p.id}`} class="group block">
+          <div class="aspect-[16/10] overflow-hidden rounded-2xl bg-navy-100">
+            {p.data.cover ? (
+              <img src={p.data.cover} alt={p.data.title} class="h-full w-full object-cover transition group-hover:scale-105" loading="lazy" />
+            ) : (
+              <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-navy-50 to-navy-100">
+                <span class="font-serif text-4xl text-navy-300">D&S</span>
+              </div>
+            )}
+          </div>
+          <p class="mt-5 text-xs uppercase tracking-wider text-gold-600">{p.data.category}</p>
+          <h3 class="mt-2 font-serif text-2xl text-navy-900 group-hover:text-navy-700">{p.data.title}</h3>
+          <p class="mt-2 text-sm text-ink/70 line-clamp-3">{p.data.description}</p>
+          <p class="mt-4 text-xs text-navy-700">{formatDate(p.data.pubDate)}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>
