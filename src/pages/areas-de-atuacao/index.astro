@@ -1,43 +1,163 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import AreaIcon from "../../components/AreaIcon.astro";
+import Stats from "../../components/Stats.astro";
+import FAQ from "../../components/FAQ.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import { site } from "../../lib/site";
 import { getCollection } from "astro:content";
 
 const areas = (await getCollection("areas")).sort((a, b) => a.data.order - b.data.order);
+
+const stats = [
+  { value: "6", label: "Áreas de prática" },
+  { value: "2018", label: "Atuando desde" },
+  { value: "2", label: "Escritórios SP" },
+  { value: "PME", label: "Foco em" },
+];
+
+const steps = [
+  {
+    n: "01",
+    title: "Diagnóstico",
+    desc: "Análise inicial do caso, contexto, riscos e expectativas. Avaliação documental e definição de escopo.",
+  },
+  {
+    n: "02",
+    title: "Estratégia",
+    desc: "Plano de ação com prazos, custos previsíveis e cenários alternativos — sempre alinhados com o cliente.",
+  },
+  {
+    n: "03",
+    title: "Execução",
+    desc: "Atuação técnica em consultivo ou contencioso, com comunicação periódica de andamentos e marcos.",
+  },
+  {
+    n: "04",
+    title: "Resultado",
+    desc: "Encerramento documentado, lições aprendidas e recomendações de prevenção para o próximo ciclo.",
+  },
+];
+
+const faq = [
+  {
+    q: "Vocês atendem pessoa física ou apenas empresas?",
+    a: "Atendemos predominantemente empresas e empreendedores, mas também pessoas físicas em demandas de Direito Civil, Família patrimonial, Locações e questões trabalhistas. A avaliação inicial define o melhor caminho.",
+  },
+  {
+    q: "Como funciona a primeira reunião?",
+    a: "A reunião inicial pode ser presencial em São Paulo ou Limeira, ou online por videochamada. Não há cobrança pelo primeiro contato exploratório — apenas após escopo definido formalizamos honorários e plano de trabalho.",
+  },
+  {
+    q: "Atuam em qual abrangência geográfica?",
+    a: "Sede em São Paulo (Av. Paulista) e unidade em Limeira/SP. Atuamos em demandas em todo o território nacional via correspondentes e tribunais superiores em Brasília.",
+  },
+  {
+    q: "Como são definidos os honorários?",
+    a: "Trabalhamos com modalidades flexíveis: honorários fixos para projetos consultivos, mensalidade em assessoria contínua e percentual de êxito em determinadas demandas contenciosas. A escolha respeita o tipo e a complexidade do caso.",
+  },
+  {
+    q: "Quanto tempo leva uma demanda?",
+    a: "Depende do caso. Consultivo (contratos, pareceres) costuma ser concluído em dias a semanas. Contencioso varia conforme a instância — comunicamos prazos realistas no plano de trabalho.",
+  },
+];
 ---
 
 <Layout
   title="Áreas de Atuação"
-  description="Conheça nossas áreas de atuação: Trabalhista, Empresarial, Ambiental, Civil, Agronegócio e Registral."
+  description="Atuação em Direito do Trabalho, Empresarial, Ambiental, Civil, Agronegócio e Registral. Consultoria e contencioso para empresas e empreendedores."
 >
-  <section class="bg-navy-50 border-b border-navy-100">
-    <div class="container-x py-20 md:py-28">
-      <p class="eyebrow">Práticas</p>
-      <h1 class="mt-3 text-4xl md:text-5xl font-semibold">Áreas de Atuação</h1>
-      <p class="mt-5 max-w-2xl text-lg text-ink/75">
-        Atuação multidisciplinar com foco em prevenção, conformidade e resultado. Selecione uma área para conhecer os serviços oferecidos.
+  <section class="relative overflow-hidden bg-navy-950 text-white">
+    <div class="absolute inset-0 opacity-30 [background:radial-gradient(circle_at_30%_20%,theme(colors.navy.700),transparent_55%)]"></div>
+    <div class="absolute inset-y-0 right-0 hidden w-1/3 lg:block">
+      <div class="h-full w-full bg-cover bg-center opacity-20" style="background-image:url('/images/escritorio-2.webp')"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/80 to-transparent"></div>
+    </div>
+    <div class="container-x relative py-24 md:py-32">
+      <p class="eyebrow text-gold-400">Práticas</p>
+      <h1 class="mt-4 max-w-3xl text-4xl md:text-6xl font-semibold leading-[1.05] text-white">
+        Atuação multidisciplinar com foco em <span class="text-gold-400">prevenção e resultado</span>.
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg text-navy-100">
+        Selecione uma área para conhecer os serviços oferecidos. Nosso método combina diagnóstico técnico, transparência de custos e proximidade com o cliente.
       </p>
     </div>
   </section>
 
-  <section class="container-x py-20">
-    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {areas.map((a) => (
+  <section class="container-x -mt-12 relative z-10">
+    <Stats items={stats} />
+  </section>
+
+  <section class="container-x py-20 md:py-28">
+    <SectionHeader
+      eyebrow="Áreas"
+      title="Onde atuamos"
+      description="Cada área conta com profissional sênior responsável e fluxo definido — do consultivo preventivo ao contencioso estratégico."
+    />
+    <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {areas.map((a, i) => (
         <a
           href={`/areas-de-atuacao/${a.id}`}
-          class="group flex flex-col rounded-2xl border border-navy-100 bg-white p-8 transition hover:-translate-y-1 hover:border-navy-300 hover:shadow-xl"
+          class="group relative flex flex-col rounded-3xl border border-navy-100 bg-white p-8 transition hover:-translate-y-1 hover:border-navy-300 hover:shadow-xl"
         >
-          <span class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-navy-900 text-gold-400">
-            <AreaIcon name={a.data.icon} />
+          <span class="absolute right-6 top-6 font-serif text-xs text-navy-200 group-hover:text-gold-500">
+            {String(i + 1).padStart(2, "0")}
           </span>
-          <h2 class="mt-6 text-2xl font-semibold">{a.data.title}</h2>
+          <span class="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-navy-50 text-navy-900 transition group-hover:bg-navy-900 group-hover:text-gold-400">
+            <AreaIcon name={a.data.icon} class="h-7 w-7" />
+          </span>
+          <h2 class="mt-7 text-2xl font-semibold">{a.data.title}</h2>
           <p class="mt-3 flex-1 text-sm leading-relaxed text-ink/70">{a.data.summary}</p>
-          <span class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-navy-700 group-hover:text-navy-900">
-            Saiba mais
+          <span class="mt-7 inline-flex items-center gap-2 text-sm font-medium text-navy-700 transition group-hover:gap-3 group-hover:text-navy-900">
+            Conhecer área
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </span>
         </a>
       ))}
+    </div>
+  </section>
+
+  <section class="bg-navy-50 border-y border-navy-100">
+    <div class="container-x py-20 md:py-28">
+      <SectionHeader
+        eyebrow="Método"
+        title="Como conduzimos cada demanda"
+        description="Nosso fluxo é simples por intenção. Você sabe o que esperar em cada etapa — sem surpresas, sem jargão."
+      />
+      <ol class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {steps.map((s) => (
+          <li class="relative rounded-3xl bg-white p-7 border border-navy-100">
+            <span class="font-serif text-5xl text-gold-500/40">{s.n}</span>
+            <h3 class="mt-3 text-xl font-semibold">{s.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink/70">{s.desc}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="container-x grid gap-12 py-20 md:py-28 lg:grid-cols-[1.1fr_1fr]">
+    <div>
+      <SectionHeader
+        eyebrow="Perguntas frequentes"
+        title="Antes de contratar"
+        description="Pontos comuns levantados por novos clientes. Se sua dúvida não está aqui, fale com a gente."
+      />
+      <a href="/contato" class="mt-8 btn-primary">Tirar uma dúvida →</a>
+    </div>
+    <FAQ items={faq} />
+  </section>
+
+  <section class="bg-navy-900 text-white">
+    <div class="container-x py-16 md:flex md:items-center md:justify-between md:gap-10">
+      <div>
+        <h2 class="text-3xl md:text-4xl font-semibold text-white">Não tem certeza de qual área?</h2>
+        <p class="mt-3 max-w-xl text-navy-100">Conte seu caso em 2 linhas e indicamos o melhor caminho. Avaliação inicial sem compromisso.</p>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-3 md:mt-0">
+        <a href="/contato" class="inline-flex items-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-sm font-semibold text-navy-950 hover:bg-gold-400">Enviar mensagem</a>
+        <a href={`https://wa.me/${site.whatsappE164}`} class="inline-flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-sm font-medium text-white hover:bg-white/10">WhatsApp</a>
+      </div>
     </div>
   </section>
 </Layout>

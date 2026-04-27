@@ -1,12 +1,60 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import FAQ from "../components/FAQ.astro";
+import SectionHeader from "../components/SectionHeader.astro";
 import { site } from "../lib/site";
+
+const channels = [
+  {
+    label: "WhatsApp",
+    value: site.whatsapp,
+    sub: "Resposta mais rápida",
+    href: `https://wa.me/${site.whatsappE164}?text=${encodeURIComponent("Olá! Gostaria de uma consulta jurídica.")}`,
+    icon: '<path d="M19.11 17.78c-.27-.13-1.6-.79-1.85-.88-.25-.09-.43-.13-.6.13-.18.27-.69.88-.85 1.06-.16.18-.31.2-.58.07-.27-.13-1.13-.42-2.15-1.33-.79-.71-1.33-1.58-1.49-1.85-.16-.27-.02-.42.12-.55.12-.12.27-.31.4-.47.13-.16.18-.27.27-.45.09-.18.04-.34-.02-.47-.07-.13-.6-1.45-.83-1.99-.22-.52-.45-.45-.6-.46l-.51-.01c-.18 0-.47.07-.71.34-.25.27-.93.91-.93 2.22 0 1.31.96 2.58 1.09 2.76.13.18 1.88 2.87 4.55 4.02.64.28 1.13.45 1.51.58.63.2 1.21.17 1.66.1.51-.07 1.6-.65 1.83-1.28.23-.63.23-1.17.16-1.28-.07-.11-.25-.18-.52-.31zM16.05 4C9.4 4 4 9.4 4 16.04c0 2.12.55 4.18 1.6 6.01L4 28l6.13-1.6a12.04 12.04 0 0 0 5.92 1.55h.01c6.65 0 12.05-5.4 12.05-12.04 0-3.22-1.25-6.25-3.53-8.53A11.95 11.95 0 0 0 16.05 4z"/>',
+  },
+  {
+    label: "Telefone",
+    value: site.phone,
+    sub: site.hours,
+    href: `tel:${site.phoneE164}`,
+    icon: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.33 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  },
+  {
+    label: "Email",
+    value: site.email,
+    sub: "Resposta em até 1 dia útil",
+    href: `mailto:${site.email}`,
+    icon: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>',
+  },
+];
+
+const faq = [
+  {
+    q: "Quanto custa a consulta inicial?",
+    a: "O primeiro contato exploratório é sem custo. Após avaliação do escopo, formalizamos honorários por escrito — fixos, mensais ou de êxito, conforme o tipo de demanda.",
+  },
+  {
+    q: "Atendimento online ou presencial?",
+    a: "Ambos. Atendemos presencialmente em SP (Av. Paulista) e Limeira, e online por videochamada para clientes em qualquer localidade.",
+  },
+  {
+    q: "Quais documentos levar na primeira reunião?",
+    a: "Documentos relacionados ao caso (contratos, notificações, processos, comunicações). Se não tiver tudo em mãos, traga o que houver — a reunião inicial costuma definir o que é necessário em seguida.",
+  },
+  {
+    q: "Vocês atuam fora de SP?",
+    a: "Sim. Mantemos atuação em todo território nacional via correspondentes locais e atuação direta nos tribunais superiores em Brasília.",
+  },
+];
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
   name: `Contato — ${site.name}`,
   url: `${site.url}/contato`,
+  contactPoint: [
+    { "@type": "ContactPoint", telephone: site.phoneE164, contactType: "customer support", areaServed: "BR", availableLanguage: ["pt-BR", "en"] },
+  ],
 };
 ---
 
@@ -15,19 +63,45 @@ const jsonLd = {
   description="Fale com o Dantas & Suppia Advogados. Atendemos em São Paulo (Av. Paulista) e Limeira. WhatsApp, telefone e email disponíveis."
   jsonLd={jsonLd}
 >
-  <section class="bg-navy-50 border-b border-navy-100">
-    <div class="container-x py-20 md:py-24">
-      <p class="eyebrow">Contato</p>
-      <h1 class="mt-3 text-4xl md:text-5xl font-semibold">Vamos conversar sobre seu caso</h1>
-      <p class="mt-5 max-w-2xl text-lg text-ink/75">
-        Preencha o formulário ou utilize um dos canais abaixo. Respondemos em até um dia útil.
-      </p>
+  <section class="relative overflow-hidden bg-navy-950 text-white">
+    <div class="absolute inset-0 opacity-30 [background:radial-gradient(circle_at_20%_30%,theme(colors.navy.700),transparent_55%)]"></div>
+    <div class="container-x relative grid gap-12 py-24 md:py-32 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+      <div>
+        <p class="eyebrow text-gold-400">Contato</p>
+        <h1 class="mt-4 text-4xl md:text-6xl font-semibold leading-[1.05] text-white">
+          Vamos conversar sobre <span class="text-gold-400">seu caso</span>.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg text-navy-100">
+          Preencha o formulário abaixo ou utilize um dos canais diretos. Respondemos em até um dia útil — frequentemente no mesmo dia.
+        </p>
+      </div>
+      <div class="grid gap-3">
+        {channels.map((c) => (
+          <a href={c.href} class="group flex items-center gap-5 rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur transition hover:bg-white/[0.08]">
+            <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gold-500 text-navy-950">
+              <svg width="22" height="22" viewBox="0 0 32 32" fill="currentColor" set:html={c.icon} aria-hidden="true" />
+            </span>
+            <div class="flex-1">
+              <p class="text-xs uppercase tracking-[0.18em] text-navy-200">{c.label}</p>
+              <p class="font-serif text-xl text-white">{c.value}</p>
+              <p class="text-xs text-navy-300">{c.sub}</p>
+            </div>
+            <svg class="h-5 w-5 text-navy-200 transition group-hover:translate-x-1 group-hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="container-x grid gap-14 py-16 lg:grid-cols-[1.2fr_1fr]">
-    <div>
-      <form id="contact-form" class="space-y-5" novalidate>
+  <section class="container-x grid gap-10 py-16 md:py-20 lg:grid-cols-[1.2fr_1fr] lg:items-start">
+    <div class="rounded-3xl border border-navy-100 bg-white p-7 md:p-10 shadow-sm">
+      <SectionHeader
+        eyebrow="Formulário"
+        title="Conte sobre o seu caso"
+        description="Sem custo, sem compromisso. Após enviar, entraremos em contato pelo canal preferido."
+      />
+
+      <form id="contact-form" class="mt-8 space-y-5" novalidate>
         <div class="grid gap-5 sm:grid-cols-2">
           <label class="block">
             <span class="text-sm font-medium text-navy-900">Nome <span class="text-red-600">*</span></span>
@@ -41,7 +115,7 @@ const jsonLd = {
         <div class="grid gap-5 sm:grid-cols-2">
           <label class="block">
             <span class="text-sm font-medium text-navy-900">Telefone</span>
-            <input name="phone" maxlength="40" class="mt-2 w-full rounded-xl border border-navy-200 bg-white px-4 py-3 text-base focus:border-navy-500 focus:outline-none focus:ring-2 focus:ring-navy-200" />
+            <input name="phone" maxlength="40" placeholder="(11) 90000-0000" class="mt-2 w-full rounded-xl border border-navy-200 bg-white px-4 py-3 text-base focus:border-navy-500 focus:outline-none focus:ring-2 focus:ring-navy-200" />
           </label>
           <label class="block">
             <span class="text-sm font-medium text-navy-900">Assunto</span>
@@ -59,44 +133,75 @@ const jsonLd = {
         </div>
         <label class="block">
           <span class="text-sm font-medium text-navy-900">Mensagem <span class="text-red-600">*</span></span>
-          <textarea name="message" required maxlength="4000" rows="6" class="mt-2 w-full rounded-xl border border-navy-200 bg-white px-4 py-3 text-base focus:border-navy-500 focus:outline-none focus:ring-2 focus:ring-navy-200"></textarea>
+          <textarea name="message" required maxlength="4000" rows="6" placeholder="Resumo da situação, prazo se houver, e qualquer detalhe relevante." class="mt-2 w-full rounded-xl border border-navy-200 bg-white px-4 py-3 text-base focus:border-navy-500 focus:outline-none focus:ring-2 focus:ring-navy-200"></textarea>
         </label>
 
         <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
 
         <p class="text-xs text-ink/60">
-          Ao enviar, você concorda em ser contatado por nossa equipe a respeito de sua solicitação.
+          Ao enviar, você concorda em ser contatado por nossa equipe. Suas informações são tratadas com confidencialidade conforme o Código de Ética da OAB e a LGPD.
         </p>
 
-        <button type="submit" class="btn-primary">
-          <span data-label>Enviar mensagem</span>
-        </button>
+        <div class="flex flex-wrap items-center gap-4">
+          <button type="submit" class="btn-primary">
+            <span data-label>Enviar mensagem</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+          <p class="text-sm text-ink/60">Resposta em até <strong class="text-navy-900">1 dia útil</strong></p>
+        </div>
 
         <p id="form-feedback" role="status" aria-live="polite" class="hidden text-sm"></p>
       </form>
     </div>
 
     <aside class="space-y-5">
-      <div class="rounded-2xl border border-navy-100 bg-white p-6">
-        <h3 class="font-serif text-xl text-navy-900">Canais diretos</h3>
-        <ul class="mt-4 space-y-3 text-sm">
-          <li><a href={`tel:${site.phoneE164}`} class="text-navy-700 hover:text-navy-900">📞 {site.phone}</a></li>
-          <li><a href={`https://wa.me/${site.whatsappE164}`} class="text-navy-700 hover:text-navy-900">💬 WhatsApp {site.whatsapp}</a></li>
-          <li><a href={`mailto:${site.email}`} class="text-navy-700 hover:text-navy-900">✉ {site.email}</a></li>
-        </ul>
-        <p class="mt-4 text-xs text-ink/60">{site.hours}</p>
-      </div>
-
       {site.addresses.map((a) => (
-        <div class="rounded-2xl border border-navy-100 bg-white p-6">
-          <p class="eyebrow">Escritório · {a.label}</p>
-          <p class="mt-2 font-serif text-lg text-navy-900">{a.street}</p>
-          <p class="text-sm text-ink/70">{a.district} — {a.city}/{a.state}</p>
-          <p class="text-sm text-ink/70">CEP {a.zip}</p>
-          <a href={a.mapsUrl} target="_blank" rel="noopener" class="mt-3 inline-block text-sm text-navy-700 hover:text-navy-900">Abrir no Google Maps →</a>
+        <div class="overflow-hidden rounded-3xl border border-navy-100 bg-white">
+          <div class="aspect-[16/9] bg-navy-100">
+            <iframe
+              title={`Mapa — ${a.city}`}
+              loading="lazy"
+              class="h-full w-full"
+              referrerpolicy="no-referrer-when-downgrade"
+              src={`https://www.google.com/maps?q=${encodeURIComponent(`${a.street}, ${a.district}, ${a.city} - ${a.state}, ${a.zip}`)}&output=embed`}
+            ></iframe>
+          </div>
+          <div class="p-6">
+            <p class="eyebrow">Escritório · {a.label}</p>
+            <p class="mt-2 font-serif text-lg text-navy-900">{a.street}</p>
+            <p class="text-sm text-ink/70">{a.district} — {a.city}/{a.state}</p>
+            <p class="text-sm text-ink/70">CEP {a.zip}</p>
+            <a href={a.mapsUrl} target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-navy-700 hover:text-navy-900">
+              Como chegar
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
         </div>
       ))}
     </aside>
+  </section>
+
+  <section class="bg-navy-50 border-y border-navy-100">
+    <div class="container-x grid gap-12 py-20 md:py-24 lg:grid-cols-[1fr_1.2fr]">
+      <SectionHeader
+        eyebrow="Antes de enviar"
+        title="Perguntas frequentes"
+        description="As dúvidas mais comuns de quem entra em contato pela primeira vez."
+      />
+      <FAQ items={faq} />
+    </div>
+  </section>
+
+  <section class="bg-navy-900 text-white">
+    <div class="container-x py-14 md:flex md:items-center md:justify-between md:gap-10">
+      <div>
+        <h2 class="text-2xl md:text-3xl font-semibold text-white">Prefere conversar agora?</h2>
+        <p class="mt-2 max-w-xl text-navy-100">Mande mensagem direto pelo WhatsApp — atendimento mais rápido em horário comercial.</p>
+      </div>
+      <a href={`https://wa.me/${site.whatsappE164}`} class="mt-5 inline-flex items-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-sm font-semibold text-navy-950 hover:bg-gold-400 md:mt-0">
+        Abrir WhatsApp →
+      </a>
+    </div>
   </section>
 </Layout>
 
@@ -110,7 +215,7 @@ const jsonLd = {
     feedback.hidden = false;
     feedback.classList.remove("hidden");
     feedback.textContent = msg;
-    feedback.className = `text-sm ${ok ? "text-emerald-700" : "text-red-700"}`;
+    feedback.className = `text-sm rounded-xl px-4 py-3 ${ok ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-800 border border-red-200"}`;
   }
 
   form?.addEventListener("submit", async (e) => {
@@ -118,16 +223,14 @@ const jsonLd = {
     if (!form || !btnLabel) return;
     const original = btnLabel.textContent;
     btnLabel.textContent = "Enviando...";
-    (form.querySelector("button[type=submit]") as HTMLButtonElement).disabled = true;
+    const submitBtn = form.querySelector("button[type=submit]") as HTMLButtonElement;
+    submitBtn.disabled = true;
 
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        body: new FormData(form),
-      });
+      const res = await fetch("/api/contact", { method: "POST", body: new FormData(form) });
       const json = await res.json().catch(() => ({}));
       if (res.ok && json.ok) {
-        setFeedback("Mensagem enviada! Em breve entraremos em contato.", true);
+        setFeedback("✓ Mensagem enviada! Em breve entraremos em contato.", true);
         form.reset();
       } else {
         setFeedback(json.error ?? "Não foi possível enviar. Tente novamente.", false);
@@ -136,7 +239,7 @@ const jsonLd = {
       setFeedback("Erro de conexão. Verifique e tente novamente.", false);
     } finally {
       btnLabel.textContent = original ?? "Enviar mensagem";
-      (form.querySelector("button[type=submit]") as HTMLButtonElement).disabled = false;
+      submitBtn.disabled = false;
     }
   });
 </script>

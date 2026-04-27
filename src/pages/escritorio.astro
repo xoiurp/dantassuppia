@@ -1,5 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Stats from "../components/Stats.astro";
+import SectionHeader from "../components/SectionHeader.astro";
 import { site } from "../lib/site";
 
 const partners = [
@@ -9,7 +11,11 @@ const partners = [
     role: "Sócio fundador",
     oab: site.oab.ronaldo,
     photo: "/images/team/ronaldo.webp",
-    bio: "Mais de dez anos de atuação em direito empresarial, com experiência em importantes empresas nacionais e multinacionais. Graduado em Direito pela Faculdade Metropolitana Unidas (FMU) e pós-graduado em Direito do Trabalho e Processo do Trabalho pelo Complexo Educacional Damásio de Jesus.",
+    bio: "Mais de dez anos de atuação em direito empresarial, com experiência em importantes empresas nacionais e multinacionais. Combina visão estratégica de negócio com profundidade técnica em consultivo trabalhista.",
+    education: [
+      "Direito — Faculdade Metropolitana Unidas (FMU)",
+      "Pós em Direito do Trabalho e Processo do Trabalho — Damásio de Jesus",
+    ],
     areas: [
       "Direito Empresarial",
       "Direito do Trabalho",
@@ -26,7 +32,8 @@ const partners = [
     role: "Sócia fundadora",
     oab: site.oab.manuela,
     photo: "/images/team/manuela.webp",
-    bio: "Atuação em direito empresarial e contratual, com foco em assessoria estratégica a pequenas e médias empresas e estruturação de operações jurídicas seguras.",
+    bio: "Atuação em direito empresarial, contratual, ambiental e registral. Foco em assessoria estratégica a pequenas e médias empresas e estruturação de operações jurídicas seguras.",
+    education: ["Direito — formação com especialização em direito empresarial e ambiental"],
     areas: [
       "Direito Empresarial",
       "Direito Civil e Contratual",
@@ -38,16 +45,31 @@ const partners = [
 ];
 
 const values = [
-  { title: "Confidencialidade", desc: "Sigilo absoluto sobre informações estratégicas dos clientes." },
-  { title: "Ética", desc: "Atuação pautada em integridade e responsabilidade profissional." },
-  { title: "Eficácia", desc: "Soluções objetivas com foco em resultado e prevenção." },
-  { title: "Presteza", desc: "Atendimento ágil e comunicação transparente em todas as etapas." },
+  { icon: "🔒", title: "Confidencialidade", desc: "Sigilo absoluto sobre informações estratégicas dos clientes — protocolos internos rigorosos." },
+  { icon: "⚖", title: "Ética", desc: "Atuação pautada em integridade e responsabilidade profissional, alinhada ao Código da OAB." },
+  { icon: "✶", title: "Eficácia", desc: "Soluções objetivas com foco em resultado, prevenção e custo-benefício para o cliente." },
+  { icon: "✦", title: "Presteza", desc: "Atendimento ágil e comunicação transparente em todas as etapas do trabalho." },
+];
+
+const timeline = [
+  { year: "2018", title: "Fundação", text: "Nasce o Dantas & Suppia para apoiar decisões jurídicas de pequenas e médias empresas." },
+  { year: "2019", title: "Estruturação consultiva", text: "Consolidação das práticas trabalhista e empresarial; primeiros clientes recorrentes." },
+  { year: "2020", title: "Expansão de áreas", text: "Ampliação para Ambiental, Civil e Agronegócio. Início da produção de conteúdo no blog." },
+  { year: "2021", title: "Frentes contenciosas", text: "Estruturação do contencioso estratégico; atuação em demandas em todo território nacional." },
+  { year: "Hoje", title: "Atuação consolidada", text: "Dois escritórios em SP (Av. Paulista e Limeira), foco em prevenção e relações de longo prazo." },
+];
+
+const stats = [
+  { value: "2018", label: "Fundação" },
+  { value: "6", label: "Áreas de prática" },
+  { value: "2", label: "Escritórios SP" },
+  { value: "PT/EN", label: "Idiomas" },
 ];
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "AboutPage",
-  name: `Sobre — ${site.name}`,
+  name: `Escritório — ${site.name}`,
   url: `${site.url}/escritorio`,
 };
 ---
@@ -57,29 +79,53 @@ const jsonLd = {
   description="Fundado em 2018, o Dantas & Suppia oferece suporte jurídico estratégico a pequenas e médias empresas, com atuação em São Paulo e Limeira."
   jsonLd={jsonLd}
 >
-  <section class="bg-navy-50 border-b border-navy-100">
-    <div class="container-x py-20 md:py-28">
-      <p class="eyebrow">O Escritório</p>
-      <h1 class="mt-3 text-4xl md:text-5xl font-semibold">Visão moderna, metodologia focada em resultados</h1>
-      <p class="mt-5 max-w-2xl text-lg text-ink/75">
-        Fundado em 2018, o Dantas & Suppia Advogados nasceu para fornecer suporte ao processo decisório de pequenas e médias empresas em seus aspectos jurídico-legais e regulatórios.
-      </p>
+  <section class="relative overflow-hidden bg-navy-950 text-white">
+    <div class="absolute inset-0 opacity-30 [background:radial-gradient(circle_at_70%_30%,theme(colors.navy.700),transparent_55%)]"></div>
+    <div class="container-x relative grid gap-12 py-24 md:py-32 lg:grid-cols-[1.15fr_1fr] lg:items-center">
+      <div>
+        <p class="eyebrow text-gold-400">O Escritório</p>
+        <h1 class="mt-4 text-4xl md:text-6xl font-semibold leading-[1.05] text-white">
+          Visão moderna, metodologia <span class="text-gold-400">focada em resultados</span>.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg text-navy-100">
+          Fundado em 2018, o Dantas & Suppia Advogados oferece suporte ao processo decisório de pequenas e médias empresas em aspectos jurídico-legais e regulatórios.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="/areas-de-atuacao" class="inline-flex items-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-sm font-semibold text-navy-950 hover:bg-gold-400">Conheça as áreas</a>
+          <a href="/contato" class="inline-flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-sm font-medium text-white hover:bg-white/10">Marcar reunião</a>
+        </div>
+      </div>
+      <div class="relative">
+        <div class="aspect-[4/5] overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
+          <img src="/images/escritorio.webp" alt="Recepção do escritório Dantas & Suppia" class="h-full w-full object-cover" loading="eager" width="640" height="800" />
+        </div>
+        <div class="absolute -bottom-6 -left-6 hidden md:block rounded-2xl bg-white p-5 shadow-xl">
+          <p class="text-xs uppercase tracking-[0.18em] text-gold-600">Desde</p>
+          <p class="mt-1 font-serif text-3xl text-navy-900">2018</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="container-x grid gap-14 py-20 lg:grid-cols-2 lg:items-center">
+  <section class="container-x -mt-12 relative z-10">
+    <Stats items={stats} />
+  </section>
+
+  <section class="container-x grid gap-14 py-20 md:py-28 lg:grid-cols-[1fr_1fr] lg:items-center">
     <div class="aspect-[4/3] overflow-hidden rounded-3xl">
-      <img src="/images/escritorio.webp" alt="Recepção do escritório" class="h-full w-full object-cover" loading="lazy" width="800" height="600" />
+      <img src="/images/escritorio-2.webp" alt="Sala de reuniões" class="h-full w-full object-cover" loading="lazy" width="800" height="600" />
     </div>
     <div>
-      <p class="eyebrow">Nossa história</p>
-      <h2 class="mt-3 text-3xl md:text-4xl font-semibold">Suporte estratégico desde 2018</h2>
-      <div class="prose-legal mt-5">
+      <SectionHeader
+        eyebrow="Quem somos"
+        title="Suporte estratégico desde 2018"
+      />
+      <div class="prose-legal mt-6">
         <p>
           A equipe combina conhecimento técnico especializado com vasta experiência no assessoramento dos mais diversos casos. Acreditamos que o escritório tem papel fundamental na evolução do serviço jurídico no Brasil.
         </p>
         <p>
-          Atuamos com foco na <strong>prevenção de litígios</strong> e na construção de relações duradouras com nossos clientes — empresas que enxergam o jurídico como parceiro estratégico, não apenas como solução de emergência.
+          Atuamos com foco em <strong>prevenção de litígios</strong> e na construção de relações duradouras — empresas que enxergam o jurídico como parceiro estratégico, não como solução de emergência.
         </p>
         <p>
           Nosso compromisso vai além da entrega técnica: defendemos os <strong>direitos humanos, a diversidade e o Estado Democrático de Direito</strong>.
@@ -88,16 +134,30 @@ const jsonLd = {
     </div>
   </section>
 
+  <section class="bg-navy-950 text-white">
+    <div class="container-x py-20 md:py-24">
+      <blockquote class="mx-auto max-w-4xl text-center">
+        <p class="font-serif text-3xl md:text-5xl leading-tight text-white">
+          “O direito não é apenas técnica — é a ferramenta que permite a empresas crescerem com segurança e a pessoas exercerem sua liberdade.”
+        </p>
+        <footer class="mt-8 text-sm uppercase tracking-[0.2em] text-gold-400">— Equipe Dantas & Suppia</footer>
+      </blockquote>
+    </div>
+  </section>
+
   <section class="bg-navy-50 border-y border-navy-100">
-    <div class="container-x py-20">
-      <p class="eyebrow">Princípios</p>
-      <h2 class="mt-3 text-3xl md:text-4xl font-semibold">Como trabalhamos</h2>
-      <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+    <div class="container-x py-20 md:py-28">
+      <SectionHeader
+        eyebrow="Princípios"
+        title="Como trabalhamos"
+        description="Quatro valores que orientam nossa relação com clientes e a forma como conduzimos cada caso."
+      />
+      <ul class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {values.map((v) => (
-          <li class="rounded-2xl bg-white p-7 shadow-sm border border-navy-100">
-            <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-navy-900 text-gold-400 font-serif text-lg">✦</span>
-            <h3 class="mt-4 text-xl font-semibold">{v.title}</h3>
-            <p class="mt-2 text-sm text-ink/70">{v.desc}</p>
+          <li class="rounded-3xl bg-white p-7 shadow-sm border border-navy-100">
+            <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-navy-900 font-serif text-xl text-gold-400">{v.icon}</span>
+            <h3 class="mt-5 text-xl font-semibold">{v.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink/70">{v.desc}</p>
           </li>
         ))}
       </ul>
@@ -105,46 +165,85 @@ const jsonLd = {
   </section>
 
   <section class="container-x py-20 md:py-28">
-    <p class="eyebrow">Sócios</p>
-    <h2 class="mt-3 text-3xl md:text-4xl font-semibold">Quem está por trás do escritório</h2>
-    <div class="mt-12 grid gap-12 md:grid-cols-2">
-      {partners.map((p) => (
-        <article class="group">
-          <div class="aspect-[4/5] overflow-hidden rounded-3xl bg-navy-100">
-            <img src={p.photo} alt={`Foto de ${p.name}`} class="h-full w-full object-cover transition group-hover:scale-105" loading="lazy" width="600" height="750" />
-          </div>
-          <div class="mt-6">
-            <p class="eyebrow">{p.role}</p>
-            <h3 class="mt-2 text-3xl font-semibold">{p.name}</h3>
-            <p class="mt-1 text-sm text-navy-700">{p.oab}</p>
-            <p class="mt-4 text-ink/75 leading-relaxed">{p.bio}</p>
-            <div class="mt-5 grid gap-4 sm:grid-cols-2">
-              <div>
-                <p class="text-xs font-semibold uppercase tracking-wider text-navy-900">Áreas</p>
-                <ul class="mt-2 space-y-1 text-sm text-ink/70">
-                  {p.areas.map((a) => <li>· {a}</li>)}
-                </ul>
-              </div>
-              <div>
-                <p class="text-xs font-semibold uppercase tracking-wider text-navy-900">Idiomas</p>
-                <ul class="mt-2 space-y-1 text-sm text-ink/70">
-                  {p.languages.map((l) => <li>· {l}</li>)}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </article>
+    <SectionHeader
+      eyebrow="Trajetória"
+      title="Nossos marcos"
+      description="Da fundação à atuação consolidada — uma linha do tempo enxuta de como chegamos até aqui."
+    />
+    <ol class="mt-12 relative border-l border-navy-200 pl-8 space-y-10">
+      {timeline.map((t) => (
+        <li class="relative">
+          <span class="absolute -left-[37px] top-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-gold-500 ring-4 ring-navy-50"></span>
+          <p class="font-serif text-3xl text-navy-900">{t.year}</p>
+          <p class="mt-1 text-sm font-semibold uppercase tracking-wider text-navy-700">{t.title}</p>
+          <p class="mt-2 max-w-2xl text-ink/75">{t.text}</p>
+        </li>
       ))}
+    </ol>
+  </section>
+
+  <section class="bg-navy-50 border-y border-navy-100">
+    <div class="container-x py-20 md:py-28">
+      <SectionHeader
+        eyebrow="Sócios"
+        title="Quem está por trás do escritório"
+        description="Liderança presente. Cada cliente conhece pessoalmente quem responde pelo seu caso."
+      />
+      <div class="mt-14 grid gap-12 lg:grid-cols-2">
+        {partners.map((p) => (
+          <article class="group rounded-3xl bg-white border border-navy-100 overflow-hidden">
+            <div class="aspect-[4/5] overflow-hidden bg-navy-100">
+              <img src={p.photo} alt={`Foto de ${p.name}`} class="h-full w-full object-cover transition group-hover:scale-105" loading="lazy" width="600" height="750" />
+            </div>
+            <div class="p-7 md:p-8">
+              <p class="eyebrow">{p.role}</p>
+              <h3 class="mt-2 text-3xl font-semibold">{p.name}</h3>
+              <p class="mt-1 text-sm font-medium text-navy-700">{p.oab}</p>
+              <p class="mt-5 text-ink/75 leading-relaxed">{p.bio}</p>
+
+              <dl class="mt-6 grid gap-5 sm:grid-cols-2">
+                <div>
+                  <dt class="text-xs font-semibold uppercase tracking-wider text-navy-900">Áreas</dt>
+                  <dd>
+                    <ul class="mt-2 space-y-1 text-sm text-ink/70">
+                      {p.areas.map((a) => <li>· {a}</li>)}
+                    </ul>
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-xs font-semibold uppercase tracking-wider text-navy-900">Idiomas</dt>
+                  <dd>
+                    <ul class="mt-2 space-y-1 text-sm text-ink/70">
+                      {p.languages.map((l) => <li>· {l}</li>)}
+                    </ul>
+                  </dd>
+                </div>
+                <div class="sm:col-span-2">
+                  <dt class="text-xs font-semibold uppercase tracking-wider text-navy-900">Formação</dt>
+                  <dd>
+                    <ul class="mt-2 space-y-1 text-sm text-ink/70">
+                      {p.education.map((e) => <li>· {e}</li>)}
+                    </ul>
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
   <section class="bg-navy-900 text-white">
     <div class="container-x py-16 md:flex md:items-center md:justify-between md:gap-10">
       <div>
-        <h2 class="text-3xl font-semibold text-white">Vamos conversar?</h2>
-        <p class="mt-2 text-navy-100 max-w-lg">Atendemos em São Paulo (Av. Paulista) e Limeira. Agende uma reunião sem compromisso.</p>
+        <h2 class="text-3xl md:text-4xl font-semibold text-white">Vamos conversar?</h2>
+        <p class="mt-3 max-w-xl text-navy-100">Atendemos em São Paulo (Av. Paulista) e Limeira. Agende uma reunião sem compromisso — ou apenas envie sua dúvida pelo WhatsApp.</p>
       </div>
-      <a href="/contato" class="mt-6 inline-flex items-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-sm font-semibold text-navy-950 hover:bg-gold-400 md:mt-0">Entrar em contato</a>
+      <div class="mt-6 flex flex-wrap gap-3 md:mt-0">
+        <a href="/contato" class="inline-flex items-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-sm font-semibold text-navy-950 hover:bg-gold-400">Entrar em contato</a>
+        <a href={`https://wa.me/${site.whatsappE164}`} class="inline-flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-sm font-medium text-white hover:bg-white/10">WhatsApp</a>
+      </div>
     </div>
   </section>
 </Layout>

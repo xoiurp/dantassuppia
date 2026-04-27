@@ -1,0 +1,19 @@
+---
+interface Stat { value: string; label: string }
+interface Props { items: Stat[]; variant?: "light" | "dark" }
+const { items, variant = "light" } = Astro.props;
+const dark = variant === "dark";
+---
+
+<dl class:list={[
+  "grid divide-x divide-y sm:divide-y-0 grid-cols-2 lg:grid-cols-4 overflow-hidden rounded-3xl",
+  dark ? "bg-navy-950 text-white divide-white/10 border border-white/10"
+       : "bg-white text-navy-900 divide-navy-100 border border-navy-100 shadow-sm",
+]}>
+  {items.map((s) => (
+    <div class="flex flex-col items-start gap-1 p-7 lg:p-8">
+      <dt class:list={["text-xs uppercase tracking-[0.18em]", dark ? "text-navy-300" : "text-navy-700"]}>{s.label}</dt>
+      <dd class:list={["font-serif text-4xl lg:text-5xl leading-none", dark ? "text-gold-400" : "text-navy-900"]}>{s.value}</dd>
+    </div>
+  ))}
+</dl>
